@@ -1,0 +1,307 @@
+---
+import PreviewCard from './PreviewCard.astro';
+import YouTubeIcon from './YouTubeIcon.astro';
+
+const competitionMocks = [
+	{ title: "MI NUEVA SETUP 2026 (Increíble)", channel: "TechVlog", views: "800K vistas", time: "hace 2 días", imgColor: "bg-blue-100 dark:bg-blue-900/40" },
+	{ title: "El secreto que YouTube no quiere que sepas", channel: "Misterio YT", views: "1.2M de vistas", time: "hace 1 semana", imgColor: "bg-purple-100 dark:bg-purple-900/40" },
+	{ title: "100 Días sobreviviendo en Marte", channel: "MrExplorer", views: "4.5M de vistas", time: "hace 3 días", imgColor: "bg-orange-100 dark:bg-orange-900/40" },
+	{ title: "Apple lo volvió a hacer...", channel: "iNews", views: "200K vistas", time: "hace 10 horas", imgColor: "bg-slate-200 dark:bg-slate-700" }
+];
+---
+
+<div class="max-w-7xl mx-auto px-6 py-12 sm:py-20">
+	<header class="mb-20 text-center space-y-6">
+		<div class="flex justify-center">
+			<YouTubeIcon class="h-16 w-auto text-brand-cyan drop-shadow-[0_0_20px_rgba(54,238,224,0.3)]" />
+		</div>
+		<div class="space-y-4">
+			<h1 class="text-4xl sm:text-7xl font-[1000] tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-b from-gray-900 via-gray-700 to-gray-500 dark:from-white dark:via-white dark:to-gray-700 uppercase">
+				Thumbnail <span class="text-brand-cyan">Battle</span>
+			</h1>
+			<p class="text-gray-500 text-sm sm:text-lg max-w-xl mx-auto font-medium">
+				¿Tu miniatura destaca sobre la competencia? Pruébalo ahora.
+			</p>
+		</div>
+	</header>
+
+	<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-32 items-stretch">
+		{/* Inputs & Tips (Now FIRST) */}
+		<div class="lg:col-span-5 flex flex-col gap-6 order-2 lg:order-1">
+			<div class="p-10 bg-gray-50 dark:bg-gray-900/40 rounded-[3.5rem] border border-gray-200 dark:border-white/5 space-y-8">
+				<div class="space-y-6">
+					<div>
+						<label for="title-input" class="block text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-3 ml-2">Título del Video</label>
+						<input type="text" id="title-input" placeholder="Escribe el título aquí..." class="w-full bg-white dark:bg-black border border-gray-200 dark:border-white/5 rounded-2xl p-5 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-cyan outline-none font-medium placeholder:text-gray-300 dark:placeholder:text-gray-800" />
+					</div>
+					<div>
+						<label for="channel-input" class="block text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-3 ml-2">Nombre del Canal</label>
+						<input type="text" id="channel-input" placeholder="Tu canal..." class="w-full bg-white dark:bg-black border border-gray-200 dark:border-white/5 rounded-2xl p-5 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-cyan outline-none font-medium placeholder:text-gray-300 dark:placeholder:text-gray-800" />
+					</div>
+				</div>
+			</div>
+
+			<div class="p-10 bg-gradient-to-br from-brand-cyan/[0.05] to-transparent dark:from-brand-cyan/[0.07] rounded-[3.5rem] border border-brand-cyan/20 dark:border-brand-cyan/10 flex-1 flex flex-col justify-center min-h-[180px]">
+				<div id="tip-container" class="opacity-0 transition-opacity duration-500">
+					<h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-cyan mb-4 flex items-center gap-2">
+						<span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+						CONSEJO DE CTR <span id="tip-id">#0</span>
+					</h3>
+					<p id="tip-text" class="text-[15px] text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+						Cargando consejo estratégico...
+					</p>
+				</div>
+			</div>
+		</div>
+
+		{/* Drop Zone (Now SECOND) */}
+		<div class="lg:col-span-7 order-1 lg:order-2">
+			<div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-[3.5rem] p-12 sm:p-20 bg-gray-50 dark:bg-gray-900/20 hover:bg-gray-100 dark:hover:bg-gray-900/40 hover:border-brand-cyan/30 transition-all cursor-pointer group relative overflow-hidden h-full min-h-[400px]" id="drop-zone">
+				<input type="file" id="thumbnail-input" class="hidden" accept="image/*" />
+				<div id="drop-zone-content" class="relative z-10 text-center transition-all duration-300">
+					<div class="w-20 h-20 bg-white dark:bg-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 shadow-xl group-hover:shadow-[0_0_50px_rgba(54,238,224,0.2)] transition-all duration-500 border border-gray-100 dark:border-none">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 group-hover:text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+						</svg>
+					</div>
+					<p class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Carga tu miniatura</p>
+					<p class="text-gray-500 text-xs font-black uppercase tracking-widest">DRAG & DROP</p>
+				</div>
+				<div id="loading-overlay" class="absolute inset-0 bg-white/80 dark:bg-black/60 flex flex-col items-center justify-center z-20 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+					<div class="w-12 h-12 border-4 border-brand-cyan border-t-transparent rounded-full animate-spin mb-4"></div>
+					<p class="text-brand-cyan font-black text-xs uppercase tracking-[0.3em]">Procesando...</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div id="previews-section" class="space-y-40 transition-opacity duration-500">
+		{/* ... rest of the sections ... */}
+		<section>
+			<h2 class="text-xl font-black mb-12 tracking-[0.2em] flex items-center gap-4 text-gray-400 dark:text-gray-500 uppercase">
+				<span class="w-12 h-px bg-gray-200 dark:bg-gray-800"></span>
+				Desktop Ecosystem
+			</h2>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+				<PreviewCard type="feed" isUser={true} />
+				<PreviewCard type="feed" mockData={competitionMocks[0]} />
+				<PreviewCard type="feed" mockData={competitionMocks[1]} />
+				<PreviewCard type="feed" mockData={competitionMocks[2]} />
+			</div>
+			
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+				<div class="lg:col-span-8">
+					<div class="aspect-video w-full bg-gray-50 dark:bg-gray-900 rounded-[2.5rem] flex items-center justify-center border border-gray-200 dark:border-white/5 mb-8 overflow-hidden relative group shadow-lg dark:shadow-2xl">
+						<div class="absolute inset-0 flex items-center justify-center bg-black/5 dark:bg-black/40 group-hover:bg-black/10 dark:group-hover:bg-black/20 transition-colors">
+							<div class="w-20 h-20 bg-brand-cyan/90 dark:bg-brand-cyan/80 rounded-full flex items-center justify-center shadow-2xl scale-90 group-hover:scale-100 transition-transform">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M3 22v-20l18 10-18 10z"/>
+								</svg>
+							</div>
+						</div>
+					</div>
+					<div class="h-8 w-2/3 bg-gray-100 dark:bg-gray-900 rounded-xl mb-4"></div>
+				</div>
+				<div class="lg:col-span-4">
+					<h3 class="text-[10px] font-black mb-6 tracking-[0.2em] text-gray-400 dark:text-gray-500 uppercase">Sugerencias (Desktop)</h3>
+					<PreviewCard type="sidebar" mockData={competitionMocks[3]} />
+					<PreviewCard type="sidebar" isUser={true} />
+					<PreviewCard type="sidebar" mockData={competitionMocks[0]} />
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="text-xl font-black mb-12 tracking-[0.2em] flex items-center gap-4 text-gray-400 dark:text-gray-500 uppercase">
+				<span class="w-12 h-px bg-gray-200 dark:bg-gray-800"></span>
+				Mobile Ecosystem
+			</h2>
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+				<div class="space-y-8">
+					<h3 class="text-center text-[10px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest bg-gray-100 dark:bg-gray-900/50 py-2 rounded-full mb-6 border border-gray-200 dark:border-none">Home Feed (App)</h3>
+					<div class="max-w-[400px] mx-auto border-x border-gray-200 dark:border-white/5 px-4 bg-gray-50 dark:bg-black/20 rounded-[2rem] py-6 shadow-inner">
+						<PreviewCard type="mobile" mockData={competitionMocks[1]} />
+						<PreviewCard type="mobile" isUser={true} />
+						<PreviewCard type="mobile" mockData={competitionMocks[2]} />
+					</div>
+				</div>
+
+				<div class="space-y-8 lg:col-span-1">
+					<h3 class="text-center text-[10px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest bg-gray-100 dark:bg-gray-900/50 py-2 rounded-full mb-6 border border-gray-200 dark:border-none">Relacionados (Mobile)</h3>
+					<div class="max-w-[400px] mx-auto space-y-2 border-x border-gray-200 dark:border-white/5 px-4 bg-gray-50 dark:bg-black/20 rounded-[2rem] py-6 shadow-inner">
+						<PreviewCard type="mobile-list" mockData={competitionMocks[3]} />
+						<PreviewCard type="mobile-list" isUser={true} />
+						<PreviewCard type="mobile-list" mockData={competitionMocks[0]} />
+						<PreviewCard type="mobile-list" mockData={competitionMocks[1]} />
+						<PreviewCard type="mobile-list" mockData={competitionMocks[2]} />
+					</div>
+				</div>
+
+				<div class="space-y-8">
+					<h3 class="text-center text-[10px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest bg-gray-100 dark:bg-gray-900/50 py-2 rounded-full mb-6 border border-gray-200 dark:border-none">Búsqueda (Mobile)</h3>
+					<div class="max-w-[400px] mx-auto space-y-6 border-x border-gray-200 dark:border-white/5 px-4 bg-gray-50 dark:bg-black/20 rounded-[2rem] py-6 shadow-inner">
+						<PreviewCard type="mobile" isUser={true} />
+						<div class="h-px bg-gray-200 dark:bg-gray-800/50 w-full"></div>
+						<PreviewCard type="mobile" mockData={competitionMocks[0]} />
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="text-xl font-black mb-12 tracking-[0.2em] flex items-center gap-4 text-gray-400 dark:text-gray-500 uppercase">
+				<span class="w-12 h-px bg-gray-200 dark:bg-gray-800"></span>
+				Resultados de Búsqueda (Desktop)
+			</h2>
+			<div class="max-w-4xl space-y-8">
+				<PreviewCard type="search" mockData={competitionMocks[2]} />
+				<PreviewCard type="search" isUser={true} />
+				<PreviewCard type="search" mockData={competitionMocks[1]} />
+			</div>
+		</section>
+	</div>
+</div>
+
+<script>
+	const tips = [
+		"Evita poner elementos clave en la esquina inferior derecha; el timestamp lo cubrirá.",
+		"Usa caras con emociones exageradas. El cerebro humano escanea rostros primero.",
+		"Mantén el texto breve: máximo 3-4 palabras para asegurar legibilidad en móviles.",
+		"Aumenta el contraste y la saturación; las miniaturas vibrantes tienen mayor CTR.",
+		"Usa flechas o círculos rojos para guiar la vista hacia el punto de interés.",
+		"Aplica la regla de los tercios para una composición visualmente equilibrada.",
+		"Asegúrate de que el sujeto principal mire hacia el espectador o hacia el título.",
+		"Prueba el 'Curiosity Gap': muestra algo inusual sin revelar el resultado final.",
+		"Mantén consistencia de marca para que tus suscriptores te reconozcan al instante.",
+		"Verifica la legibilidad en modo oscuro; los colores neón suelen resaltar más.",
+		"Usa fondos desenfocados para que el sujeto principal destaque con claridad.",
+		"Añade un borde sutil a tu miniatura para separarla visualmente del fondo de YouTube.",
+		"Usa fuentes negritas (Sans-Serif) para que el texto sea legible en tamaños pequeños.",
+		"Muestra comparaciones de 'Antes vs Después' para generar intriga inmediata.",
+		"El rostro del sujeto debe ocupar al menos un tercio de la miniatura para conectar.",
+		"Usa colores complementarios (como azul y naranja) para maximizar el contraste.",
+		"Zoom in: muestra los detalles más cerca de lo que crees que es necesario.",
+		"Elimina el fondo de tus sujetos (recortes) para crear profundidad y orden.",
+		"Añade un resplandor o trazo blanco alrededor del sujeto para que 'salte' del fondo.",
+		"Alinea la historia de la miniatura con el título; no deben decir exactamente lo mismo.",
+		"Evita el 'clickbait' engañoso; el CTR alto no sirve si el tiempo de visualización cae.",
+		"Usa elementos de 'acción' o movimiento capturado en medio de la escena.",
+		"Incluye logos o iconos reconocibles si el video trata sobre una marca o app.",
+		"Usa el efecto 'Big Head': agranda ligeramente la cabeza del sujeto para enfatizar la emoción.",
+		"Evita fondos caóticos o con demasiados elementos distractores.",
+		"Coloca un sombreado oscuro detrás del texto para que siempre sea legible.",
+		"Sigue el patrón de lectura en 'Z': coloca la info clave donde el ojo escanea naturalmente.",
+		"Muestra el beneficio o resultado del video de forma inmediata y visual.",
+		"Usa el espacio negativo de forma inteligente para no saturar la imagen.",
+		"Observa las miniaturas de tu competencia y haz algo visualmente opuesto.",
+		"Usa mapas de calor mentales: ¿qué es lo primero que vería alguien en 0.5 segundos?",
+		"La miniatura debe contar una historia completa en menos de un segundo.",
+		"Usa barras de progreso o porcentajes para indicar niveles o evolución.",
+		"Incluye elementos 'imposibles' o chocantes que desafíen la lógica cotidiana.",
+		"Mantén un solo punto focal claro; no intentes mostrar tres cosas a la vez.",
+		"Usa contornos brillantes para objetos importantes que quieras resaltar.",
+		"No mezcles más de dos fuentes diferentes; mantén la armonía tipográfica.",
+		"Usa sombras paralelas para dar una sensación de 3D y profundidad a los recortes.",
+		"Prefiere fotos auténticas y orgánicas sobre imágenes de stock genéricas.",
+		"Prueba tu miniatura al 10% de su tamaño original; si no se entiende, rediséñala.",
+		"Usa elementos 'teaser' (partes pixeladas o censuradas) para generar curiosidad extrema.",
+		"La consistencia visual crea un 'hábito de click' en tus seguidores más fieles.",
+		"Usa colores que evoquen la emoción del video (Rojo para energía, Azul para calma).",
+		"Si usas texto, inclínalo ligeramente para dar una sensación de dinamismo.",
+		"Asegúrate de que la iluminación en tu rostro sea frontal y clara, sin sombras raras.",
+		"Evita poner texto importante en la parte superior derecha (iconos de tarjetas/reproducción).",
+		"Usa 'Vs' (Versus) para crear conflicto o competencia visual inmediata.",
+		"Muestra dinero o cifras solo si es estrictamente necesario y relevante para el video.",
+		"Usa la técnica del 'Primer Plano Extremo' para objetos pequeños pero importantes.",
+		"Recuerda que la miniatura es el 50% del éxito de un video; dedícale el tiempo que merece."
+	];
+
+	const tipContainer = document.getElementById('tip-container');
+	const tipText = document.getElementById('tip-text');
+	const tipId = document.getElementById('tip-id');
+	const loadingOverlay = document.getElementById('loading-overlay');
+	const previewsSection = document.getElementById('previews-section');
+
+	function showRandomTip() {
+		const index = Math.floor(Math.random() * tips.length);
+		if (tipText && tipId && tipContainer) {
+			tipText.textContent = tips[index];
+			tipId.textContent = `#${index + 1}`;
+			tipContainer.classList.remove('opacity-0');
+		}
+	}
+
+	window.addEventListener('DOMContentLoaded', showRandomTip);
+
+	const dropZone = document.getElementById('drop-zone');
+	const fileInput = document.getElementById('thumbnail-input') as HTMLInputElement;
+	const titleInput = document.getElementById('title-input') as HTMLInputElement;
+	const channelInput = document.getElementById('channel-input') as HTMLInputElement;
+	
+	const thumbnailPreviews = document.querySelectorAll('.thumbnail-preview') as NodeListOf<HTMLImageElement>;
+	const placeholders = document.querySelectorAll('.placeholder-preview') as NodeListOf<HTMLElement>;
+	const previewTitles = document.querySelectorAll('.preview-title') as NodeListOf<HTMLElement>;
+	const previewChannels = document.querySelectorAll('.preview-channel') as NodeListOf<HTMLElement>;
+
+	if (dropZone && fileInput) {
+		dropZone.onclick = () => fileInput.click();
+		dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('border-brand-cyan/50', 'bg-brand-cyan/[0.02]'); };
+		dropZone.ondragleave = () => dropZone.classList.remove('border-brand-cyan/50', 'bg-brand-cyan/[0.02]');
+		dropZone.ondrop = (e) => {
+			e.preventDefault();
+			dropZone.classList.remove('border-brand-cyan/50', 'bg-brand-cyan/[0.02]');
+			if (e.dataTransfer?.files && e.dataTransfer.files[0]) handleImage(e.dataTransfer.files[0]);
+		};
+		fileInput.onchange = (e) => {
+			const target = e.target as HTMLInputElement;
+			if (target.files && target.files[0]) handleImage(target.files[0]);
+		};
+	}
+
+	function handleImage(file: File) {
+		if (!file.type.startsWith('image/')) return;
+
+		if (loadingOverlay) loadingOverlay.classList.remove('opacity-0', 'pointer-events-none');
+		
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const src = e.target?.result as string;
+			
+			setTimeout(() => {
+				if (loadingOverlay) loadingOverlay.classList.add('opacity-0', 'pointer-events-none');
+
+				thumbnailPreviews.forEach(img => { 
+					img.src = src; 
+					img.classList.remove('hidden'); 
+					img.classList.add('animate-in');
+				});
+				placeholders.forEach(p => p.classList.add('hidden'));
+
+				if (previewsSection) {
+					previewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}
+			}, 800);
+		};
+		reader.readAsDataURL(file);
+	}
+
+	titleInput?.addEventListener('input', (e) => {
+		const text = (e.target as HTMLInputElement).value || 'Título del video que aparecerá aquí';
+		previewTitles.forEach(el => el.textContent = text);
+	});
+
+	channelInput?.addEventListener('input', (e) => {
+		const text = (e.target as HTMLInputElement).value || 'Nombre del Canal';
+		previewChannels.forEach(el => el.textContent = text);
+	});
+</script>
+
+<style>
+	@keyframes fade-in {
+		from { opacity: 0; transform: scale(0.95); }
+		to { opacity: 1; transform: scale(1); }
+	}
+	.animate-in {
+		animation: fade-in 0.6s ease-out forwards;
+	}
+</style>

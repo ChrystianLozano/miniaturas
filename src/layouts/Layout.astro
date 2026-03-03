@@ -1,0 +1,123 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { 
+	title, 
+	description = "La herramienta definitiva para probar tus miniaturas de YouTube. Previsualiza cómo se verá tu video en Home, Sidebar y Mobile antes de subirlo. Maximiza tu CTR con consejos profesionales." 
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://thumbnailbattle.com');
+const socialImageURL = new URL('/og-image.png', Astro.url.origin); // Deberías crear esta imagen luego
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		{/* SEO Primary Meta Tags */}
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+
+		{/* Open Graph / Facebook */}
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={socialImageURL} />
+
+		{/* Twitter */}
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={socialImageURL} />
+
+		{/* Keywords */}
+		<meta name="keywords" content="YouTube thumbnail tester, preview youtube thumbnails, CTR optimizer, youtube SEO tools, youtube marketing, miniatura youtube, probar miniaturas" />
+		<meta name="author" content="Thumbnail Battle" />
+		<meta name="robots" content="index, follow" />
+
+		{/* JSON-LD Structured Data */}
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebApplication",
+				"name": "Thumbnail Battle",
+				"description": "Herramienta gratuita para previsualizar y optimizar miniaturas de YouTube en tiempo real.",
+				"url": "https://thumbnailbattle.com",
+				"applicationCategory": "MultimediaApplication",
+				"operatingSystem": "All",
+				"offers": {
+					"@type": "Offer",
+					"price": "0",
+					"priceCurrency": "USD"
+				}
+			}
+		</script>
+
+		<script is:inline>
+			const theme = (() => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme');
+				}
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark';
+				}
+				return 'light';
+			})();
+		
+			if (theme === 'dark') {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+			window.localStorage.setItem('theme', theme);
+		</script>
+	</head>
+	<body class="bg-white dark:bg-[#0f0f0f] text-[#0f0f0f] dark:text-white min-h-screen transition-colors duration-300">
+		<slot />
+		
+		<button id="theme-toggle" aria-label="Cambiar tema" class="fixed bottom-8 right-8 z-50 p-4 bg-gray-100 dark:bg-gray-800 rounded-full shadow-2xl border border-gray-200 dark:border-white/10 hover:scale-110 transition-all active:scale-95 group">
+			<svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.242 16.242l.707.707M7.757 7.757l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+			</svg>
+			<svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+			</svg>
+		</button>
+	</body>
+</html>
+
+<script>
+	const themeToggle = document.getElementById("theme-toggle");
+	const sunIcon = document.getElementById('sun-icon');
+	const moonIcon = document.getElementById('moon-icon');
+
+	function updateIcons() {
+		const isDark = document.documentElement.classList.contains("dark");
+		if (sunIcon && moonIcon) {
+			sunIcon.classList.toggle('hidden', !isDark);
+			moonIcon.classList.toggle('hidden', isDark);
+		}
+	}
+
+	themeToggle?.addEventListener("click", () => {
+		document.documentElement.classList.toggle("dark");
+		const isDark = document.documentElement.classList.contains("dark");
+		localStorage.setItem("theme", isDark ? "dark" : "light");
+		updateIcons();
+	});
+
+	updateIcons();
+</script>
