@@ -11,8 +11,8 @@ const {
 	description = "La herramienta definitiva para probar tus miniaturas de YouTube. Previsualiza cómo se verá tu video en Home, Sidebar y Mobile antes de subirlo. Maximiza tu CTR con consejos profesionales." 
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://thumbnailbattle.com');
-const socialImageURL = new URL('/og-image.png', Astro.url.origin); // Deberías crear esta imagen luego
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://miniatura.chrystian.dev');
+const socialImageURL = new URL('/og-image.png', Astro.url.origin);
 ---
 
 <!doctype html>
@@ -45,7 +45,7 @@ const socialImageURL = new URL('/og-image.png', Astro.url.origin); // Deberías 
 
 		{/* Keywords */}
 		<meta name="keywords" content="YouTube thumbnail tester, preview youtube thumbnails, CTR optimizer, youtube SEO tools, youtube marketing, miniatura youtube, probar miniaturas" />
-		<meta name="author" content="Thumbnail Battle" />
+		<meta name="author" content="Chrystian Fabian Lozano Ramirez" />
 		<meta name="robots" content="index, follow" />
 
 		{/* JSON-LD Structured Data */}
@@ -55,13 +55,12 @@ const socialImageURL = new URL('/og-image.png', Astro.url.origin); // Deberías 
 				"@type": "WebApplication",
 				"name": "Thumbnail Battle",
 				"description": "Herramienta gratuita para previsualizar y optimizar miniaturas de YouTube en tiempo real.",
-				"url": "https://thumbnailbattle.com",
+				"url": "https://miniatura.chrystian.dev",
 				"applicationCategory": "MultimediaApplication",
 				"operatingSystem": "All",
-				"offers": {
-					"@type": "Offer",
-					"price": "0",
-					"priceCurrency": "USD"
+				"author": {
+					"@type": "Person",
+					"name": "Chrystian Fabian Lozano Ramirez"
 				}
 			}
 		</script>
@@ -85,9 +84,25 @@ const socialImageURL = new URL('/og-image.png', Astro.url.origin); // Deberías 
 			window.localStorage.setItem('theme', theme);
 		</script>
 	</head>
-	<body class="bg-white dark:bg-[#0f0f0f] text-[#0f0f0f] dark:text-white min-h-screen transition-colors duration-300">
-		<slot />
+	<body class="bg-white dark:bg-[#0f0f0f] text-[#0f0f0f] dark:text-white min-h-screen transition-colors duration-300 flex flex-col">
+		<div class="flex-1">
+			<slot />
+		</div>
 		
+		<footer class="py-12 border-t border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-black/20 mt-20">
+			<div class="max-w-7xl mx-auto px-6 text-center">
+				<p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+					Desarrollado con ❤️ por 
+					<span class="text-gray-900 dark:text-white font-bold ml-1">
+						Chrystian Fabian <span class="text-brand-cyan">Lozano Ramirez</span>
+					</span>
+				</p>
+				<p class="text-[10px] text-gray-400 dark:text-gray-600 mt-2 uppercase tracking-[0.2em]">
+					© {new Date().getFullYear()} • Thumbnail Battle Tool
+				</p>
+			</div>
+		</footer>
+
 		<button id="theme-toggle" aria-label="Cambiar tema" class="fixed bottom-8 right-8 z-50 p-4 bg-gray-100 dark:bg-gray-800 rounded-full shadow-2xl border border-gray-200 dark:border-white/10 hover:scale-110 transition-all active:scale-95 group">
 			<svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.242 16.242l.707.707M7.757 7.757l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
