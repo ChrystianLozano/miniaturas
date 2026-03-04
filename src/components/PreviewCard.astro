@@ -1,6 +1,6 @@
 ---
 interface Props {
-	type: 'feed' | 'sidebar' | 'mobile' | 'search' | 'mobile-list';
+	type: "feed" | "sidebar" | "mobile" | "search" | "mobile-list";
 	label?: string;
 	isUser?: boolean;
 	mockData?: {
@@ -9,84 +9,157 @@ interface Props {
 		views: string;
 		time: string;
 		imgColor: string;
+		imgSrc?: string;
 	};
 }
 
-const { 
-	type, 
-	label, 
+const {
+	type,
+	label,
 	isUser = false,
 	mockData = {
 		title: "Cómo mejorar tu CTR en 2026: Guía Definitiva",
 		channel: "Estrategia Digital",
 		views: "150K vistas",
 		time: "hace 5 horas",
-		imgColor: "bg-gray-100 dark:bg-gray-800"
-	}
+		imgColor: "bg-gray-100 dark:bg-gray-800",
+	},
 } = Astro.props;
 
 const containerClasses = {
 	feed: "w-full",
 	sidebar: "w-full",
 	mobile: "w-full",
-	'mobile-list': "w-full",
-	search: "w-full"
+	"mobile-list": "w-full",
+	search: "w-full",
 };
 
 const imgClasses = {
 	feed: "aspect-video w-full rounded-xl bg-gray-100 dark:bg-gray-800",
-	sidebar: "aspect-video w-[168px] min-w-[168px] rounded-lg bg-gray-100 dark:bg-gray-800",
+	sidebar:
+		"aspect-video w-[168px] min-w-[168px] rounded-lg bg-gray-100 dark:bg-gray-800",
 	mobile: "aspect-video w-full bg-gray-100 dark:bg-gray-800",
-	'mobile-list': "aspect-video w-[120px] min-w-[120px] rounded-lg bg-gray-100 dark:bg-gray-800",
-	search: "aspect-video w-full sm:w-[360px] sm:min-w-[360px] rounded-xl bg-gray-100 dark:bg-gray-800"
+	"mobile-list":
+		"aspect-video w-[120px] min-w-[120px] rounded-lg bg-gray-100 dark:bg-gray-800",
+	search: "aspect-video w-full sm:w-[360px] sm:min-w-[360px] rounded-xl bg-gray-100 dark:bg-gray-800",
 };
 ---
 
-<div class={`preview-container ${containerClasses[type]} group mb-6 relative transition-opacity ${!isUser ? 'opacity-70' : ''}`}>
-	{label && (
-		<div class="mb-3 flex items-center gap-2">
-			<span class="h-px flex-1 bg-gray-200 dark:bg-gray-800"></span>
-			<span class="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-[0.2em] px-2">{label}</span>
-			<span class="h-px flex-1 bg-gray-200 dark:bg-gray-800"></span>
-		</div>
-	)}
-	
-	<div class={(type === 'sidebar' || type === 'search' || type === 'mobile-list') ? "flex gap-3" : "flex flex-col gap-3"}>
-		<div class={`${imgClasses[type]} overflow-hidden relative border border-black/5 dark:border-white/5 flex-shrink-0 shadow-sm ${isUser ? 'ring-2 ring-red-500/10' : ''}`}>
-			{isUser ? (
-				<>
-					<img class="thumbnail-preview w-full h-full object-cover hidden" alt="Thumbnail Preview" />
-					<div class="placeholder-preview w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600 text-[10px] font-medium uppercase p-2 text-center leading-none">
-						{type === 'mobile-list' ? 'Subir' : 'Subir imagen'}
+<div
+	class={`preview-container ${containerClasses[type]} group mb-6 relative transition-opacity`}
+>
+	{
+		label && (
+			<div class="mb-3 flex items-center gap-2">
+				<span class="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
+				<span class="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-[0.2em] px-2">
+					{label}
+				</span>
+				<span class="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
+			</div>
+		)
+	}
+
+	<div
+		class={type === "sidebar" || type === "search" || type === "mobile-list"
+			? "flex gap-3"
+			: "flex flex-col gap-3"}
+	>
+		<div
+			class={`${
+				imgClasses[type]
+			} overflow-hidden relative border border-black/5 dark:border-white/5 flex-shrink-0 shadow-sm ${
+				isUser ? "ring-2 ring-red-500/10" : ""
+			}`}
+		>
+			{
+				isUser ? (
+					<>
+						<img
+							class="thumbnail-preview w-full h-full object-cover object-center hidden"
+							alt="Thumbnail Preview"
+						/>
+						<div class="placeholder-preview w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-600 text-[10px] font-medium uppercase p-2 text-center leading-none">
+							{type === "mobile-list" ? "Subir" : "Subir imagen"}
+						</div>
+					</>
+				) : mockData.imgSrc ? (
+					<img
+						src={mockData.imgSrc}
+						alt={mockData.title}
+						class="w-full h-full object-cover object-center"
+					/>
+				) : (
+					<div
+						class={`w-full h-full ${mockData.imgColor} flex items-center justify-center`}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6 text-black/5 dark:text-white/5"
+							fill="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+						</svg>
 					</div>
-				</>
-			) : (
-				<div class={`w-full h-full ${mockData.imgColor} flex items-center justify-center`}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black/5 dark:text-white/5" fill="currentColor" viewBox="0 0 24 24">
-						<path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-					</svg>
-				</div>
-			)}
-			<div class="absolute bottom-1 right-1 bg-black/80 px-1 py-0.5 rounded text-[9px] font-bold text-white tabular-nums">10:45</div>
+				)
+			}
+			<div
+				class="absolute bottom-1 right-1 bg-black/80 px-1 py-0.5 rounded text-[9px] font-bold text-white tabular-nums"
+			>
+				10:45
+			</div>
 		</div>
 
 		<div class="flex-1 min-w-0">
 			<div class="flex gap-2">
-				{type !== 'sidebar' && type !== 'search' && type !== 'mobile-list' && (
-					<div class={`w-9 h-9 rounded-full ${isUser ? 'bg-red-500/10' : 'bg-gray-100 dark:bg-gray-800'} flex-shrink-0 border border-black/5 dark:border-white/5 overflow-hidden`}>
-						{isUser && <div class="w-full h-full bg-gradient-to-br from-red-600 to-red-900 opacity-50"></div>}
-					</div>
-				)}
+				{
+					type !== "sidebar" &&
+						type !== "search" &&
+						type !== "mobile-list" && (
+							<div
+								class={`w-9 h-9 rounded-full ${
+									isUser
+										? "bg-red-500/10"
+										: "bg-gray-100 dark:bg-gray-800"
+								} flex-shrink-0 border border-black/5 dark:border-white/5 overflow-hidden`}
+							>
+								{isUser && (
+									<div class="w-full h-full bg-gradient-to-br from-red-600 to-red-900 opacity-50" />
+								)}
+							</div>
+						)
+				}
 				<div class="flex-1 min-w-0">
-					<h3 class={`${isUser ? 'preview-title' : ''} ${type === 'mobile-list' ? 'text-[12px]' : 'text-[14px]'} font-bold text-[#0f0f0f] dark:text-white line-clamp-2 leading-tight mb-1`}>
-						{isUser ? "Título del video que aparecerá aquí" : mockData.title}
+					<h3
+						class={`${isUser ? "preview-title" : ""} ${
+							type === "mobile-list"
+								? "text-[12px]"
+								: "text-[14px]"
+						} font-bold text-[#0f0f0f] dark:text-white line-clamp-2 leading-tight mb-1`}
+					>
+						{
+							isUser
+								? "Título del video que aparecerá aquí"
+								: mockData.title
+						}
 					</h3>
-					<div class="flex flex-col text-[11px] text-[#606060] dark:text-[#aaaaaa]">
-						<span class={`${isUser ? 'preview-channel' : ''} hover:text-[#0f0f0f] dark:hover:text-white transition-colors truncate font-medium`}>
+					<div
+						class="flex flex-col text-[11px] text-[#606060] dark:text-[#aaaaaa]"
+					>
+						<span
+							class={`${
+								isUser ? "preview-channel" : ""
+							} hover:text-[#0f0f0f] dark:hover:text-white transition-colors truncate font-medium`}
+						>
 							{isUser ? "Nombre del Canal" : mockData.channel}
 						</span>
 						<span class="truncate">
-							{isUser ? "2.4M de vistas • hace 1 día" : `${mockData.views} • ${mockData.time}`}
+							{
+								isUser
+									? "2.4M de vistas • hace 1 día"
+									: `${mockData.views} • ${mockData.time}`
+							}
 						</span>
 					</div>
 				</div>
